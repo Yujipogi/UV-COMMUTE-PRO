@@ -215,9 +215,10 @@ int processPayment(float* total, float* paid) {
 
         return 1;
 
-    } else 
+    } else {
 
         printf("Invalid amount! Must be at least 50 and not exceed total fare.\n");
+    }
 
         return 0;
     }
@@ -306,7 +307,6 @@ int main() {
     int i;
 
     for(i = 0; i < MAX_SCHEDULES; i++) {
-
         initSeats(seats[i]);
     }
 
