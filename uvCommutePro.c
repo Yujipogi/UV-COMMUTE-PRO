@@ -151,45 +151,48 @@ void enqueue(
 
 // Display booking history
 void displayQueue(Queue* q) {
-    if(isEmpty(q)) {
-        printf("No bookings yet!\n");
+    if(isEmpty(q)){
+        printf("No bookinngs yet\n");
         return;
     }
 
     Node* temp = q->front;
-    Node* arr[100]; 
+    Node* arr[100];
     int count = 0;
 
-    while(temp != NULL) {
+    while(temp != NULL){
         arr[count++] = temp;
-        temp = temp->next;
+        temp = temp -> next;
     }
 
     // Bubble sort by date and time
-    for(int i = 0; i < count - 1; i++) {
-        for(int j = 0; j < count - i - 1; j++) {
-            if(strcmp(arr[j]->bookingDateTime, arr[j+1]->bookingDateTime) > 0) {
-                Node* swap = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = swap;
+    for(int i=0; i<count-1; i++){
+        for(int j=0; j< count -i -1; j++){
+            if(strcmp(arr[j]->bookingDateTime, arr[j+1]->bookingDateTime)> 0){
+            
+            Node* swap = arr[j];
+            arr[j]=arr[j++];
+            arr[j++]=swap;
+
             }
-        }
+        }      
     }
 
     // Display sorted bookings
-    printf("\n-----------------------------------------------------------------------------------\n");
-    printf("%-20s | %-15s | %-15s | %-12s | %-15s\n",
-           "Date & Time", "Passenger Name", "Route", "Seat Occupied", "Schedule");
-    printf("-----------------------------------------------------------------------------------\n");
+    printf("\n-----------------------------------------------------------------------------------------------------------\n");
+    printf("%-20s | %-25s | %-15s | %-12s | %-15s | %-10s\n",
+           "Date & Time", "Passenger Name", "Route", "Seat Occupied", "Schedule", "Status");
+    printf("-------------------------------------------------------------------------------------------------------------\n");
     for(int i = 0; i < count; i++) {
-        printf("%-20s | %-15s | %-15s | %-12d | %-15s\n",
+        printf("%-20s | %-25s | %-15s | %-13d | %-15s | %-10s\n",
                arr[i]->bookingDateTime,
                arr[i]->name,
                arr[i]->route,
                arr[i]->seatNo,
-               arr[i]->time);
+               arr[i]->time,
+               arr[i]->status);
     }
-    printf("-----------------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------------------------------------------\n");
 }
 //Linear search for passenger by name
 void searchPassenger(Queue* q, char searchName[]) {
@@ -199,18 +202,18 @@ void searchPassenger(Queue* q, char searchName[]) {
     while(temp != NULL) {
         if(strcmp(temp->name, searchName) == 0) {
             printf("\nPassenger Found!\n");
-            printf("------------------------------------------------------------------------------------------------------------\n");
+            printf("-------------------------------------------------------------------------------------------------------------\n");
             printf("%-20s | %-15s | %-15s | %-12s | %-12s | %-10s\n",
                    "Date & Time", "Route", "Schedule", "Seat Occupied", "Paid Amount", "Status");
-            printf("------------------------------------------------------------------------------------------------------------\n");
-            printf("%-20s | %-15s | %-15s | %-12d | PHP %-7.2f | %-10s\n",
+            printf("-------------------------------------------------------------------------------------------------------------\n");
+            printf("%-20s | %-15s | %-15s | %-13d | PHP %-7.2f | %-10s\n",
                    temp->bookingDateTime,
                    temp->route,
                    temp->time,
                    temp->seatNo,
                    temp->amountPaid,
                    temp->status);
-            printf("------------------------------------------------------------------------------------------------------------\n");
+            printf("-------------------------------------------------------------------------------------------------------------\n");
             found = 1;
             break;
         }
@@ -224,9 +227,7 @@ void searchPassenger(Queue* q, char searchName[]) {
 
 // Initialize seats
 void initSeats(Seat seats[]) {
-	int i;
-    for(i = 0; i < MAX_SEATS_PER_SCHEDULE; i++) {
-
+    for(int i = 0; i < MAX_SEATS_PER_SCHEDULE; i++){
         seats[i].seatNum = i + 1;
         seats[i].isAvailable = 1;
     }
@@ -332,15 +333,14 @@ void generateReceipt(
     
     strftime(dateTime, sizeof(dateTime), "%m-%d-%Y %I:%M %p", local);
 
-    printf("\n========== RECEIPT ==========\n");
-    printf("Date & Time: %s\n", dateTime);
-    printf("Name: %s\n", name);
-    printf("Seat Number: %d\n", seat);
-    printf("Route: %s\n", route);
-    printf("Schedule: %s\n", schedule);
-    printf("Amount Paid: PHP %.2f\n", paid);
-
-    printf("=============================\n");
+    printf("\n+----------------- RECEIPT -----------------+\n");
+    printf("| Date & Time : %-27s |\n", dateTime);
+    printf("| Name        : %-27s |\n", name);
+    printf("| Seat Number : %-27d |\n", seat);
+    printf("| Route       : %-27s |\n", route);
+    printf("| Schedule    : %-27s |\n", schedule);
+    printf("| Amount Paid : PHP %-23.2f |\n", paid);
+    printf("+------------------------------------------+\n");
 }
 
 // Main function
@@ -383,19 +383,19 @@ int main() {
     float amountPaid = 0;
 
     do {
-        printf("\n=========================================\n");
-        printf("       WELCOME TO UV COMMUTE PRO         \n");
-        printf("=========================================\n");
-        printf("1. Input Full Name\n");
-        printf("2. Choose Schedule & Time\n");
-        printf("3. Reserve Seat\n");
-        printf("4. Pay for your Ride\n");
-        printf("5. Cancel Booking\n");
-        printf("6. Generate Receipt\n");
-        printf("7. Search Passenger Name\n");
-        printf("8. View Booking History\n");
-        printf("9. Exit\n");
-        printf("=========================================\n");
+        printf("\n+===========================================+\n");
+        printf("|        WELCOME TO UV COMMUTE PRO          |\n");
+        printf("+===========================================+\n");
+        printf("|  1. Input Full Name                       |\n");
+        printf("|  2. Choose Schedule & Time                |\n");
+        printf("|  3. Reserve Seat                          |\n");
+        printf("|  4. Pay for your Ride                     |\n");
+        printf("|  5. Cancel Booking                        |\n");
+        printf("|  6. Generate Receipt                      |\n");
+        printf("|  7. Search Passenger Name                 |\n");
+        printf("|  8. View Booking History                  |\n");
+        printf("|  9. Exit                                  |\n");
+        printf("+===========================================+\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         getchar();
@@ -404,7 +404,7 @@ int main() {
 
             case 1:
 
-                printf("\n--- Input Full Name ---\n");
+                printf("\n-------- Input Full Name --------\n");
 
                 while(1) {
 
@@ -434,7 +434,7 @@ int main() {
 
             case 2:
 
-                printf("\n--- Available Schedules ---\n");
+                printf("\n-------- Available Schedules --------\n");
 
                 for(int i = 0; i < MAX_SCHEDULES; i++) {
 
@@ -473,9 +473,7 @@ int main() {
                 break;
 
             case 3:
-
-                printf("\n--- Seat Reservation ---\n");
-
+                //Seat reservation
                 if(selectedSchedule == 0) {
 
                     printf("Please choose a schedule first!\n");
@@ -518,7 +516,7 @@ int main() {
 
             case 4:
 
-                printf("\n--- Payment ---\n");
+                printf("\n-------- Payment --------\n");
 
                 if(strlen(userName) == 0 ||
                    selectedSchedule == 0 ||
@@ -564,7 +562,6 @@ int main() {
                    selectedSchedule != 0 &&
                    selectedSeat != 0 &&
                    amountPaid > 0) {
-
                     generateReceipt(
                         userName,
                         selectedSeat,
@@ -572,38 +569,28 @@ int main() {
                         selectedTime,
                         amountPaid
                     );
-
                 } else {
-
                     printf("Complete all steps first!\n");
                 }
-
                 break;
 
             case 7:
-
-                printf("\n--- Search Passenger ---\n");
+                printf("\n-------- Search Passenger --------\n");
                 printf("Enter full passenger name: ");
                 fgets(searchName, sizeof(searchName), stdin);
                 searchName[strcspn(searchName, "\n")] = '\0';
                 searchPassenger(&bookingQueue, searchName);
-
                 break;
 
             case 8:
-
                 displayQueue(&bookingQueue);
-
                 break;
 
             case 9:
-
                 printf("Thank you for using UV Commute Pro!\n");
-
                 break;
 
             default:
-
                 printf("Invalid choice! Try again.\n");
         }
     } while(choice != 9);
